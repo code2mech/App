@@ -7,9 +7,9 @@ import requests
 
 # 🔗 Map display names to GitHub raw URLs
 MODEL_OPTIONS = {
-    "CFD Model": "https://raw.githubusercontent.com/yourusername/yourrepo/main/model_cfd.onnx",
-    "Mixing Model": "https://raw.githubusercontent.com/yourusername/yourrepo/main/model_mixing.onnx",
-    "Heat Transfer Model": "https://raw.githubusercontent.com/yourusername/yourrepo/main/model_heat.onnx"
+    "2L to 5L": "https://raw.githubusercontent.com/yourusername/yourrepo/main/model_cfd.onnx",
+    "10L to 20L": "https://github.com/code2mech/App/blob/main/10L_20L.onnx",
+    "800L to 2000L": "https://raw.githubusercontent.com/yourusername/yourrepo/main/model_heat.onnx"
 }
 
 # 🏷 Custom output labels
