@@ -56,41 +56,27 @@ def main():
                 if success:
                     input_names, input_dict, output_names, outputs = result
                     
-                    # Display input information
-                    st.subheader("Model Information")
-                    st.write(f"Number of inputs: {len(input_names)}")
-                    st.write(f"Input names: {input_names}")
-                    
-                    # Display input values
-                    st.subheader("Input Values")
-                    for name, value in input_dict.items():
-                        st.write(f"Input '{name}':")
-                        st.write(f"  Shape: {value.shape}")
-                        st.write(f"  Values: {value}")
-                    
-                    # Display output information
+                    # Display results in the specified format
                     st.subheader("Results")
-                    for i, output_name in enumerate(output_names):
-                        st.write(f"Output '{output_name}':")
-                        st.write(f"  Shape: {outputs[i].shape}")
-                        
-                        # Display the output values in a more readable format
-                        if outputs[i].size < 10:  # If small output, show directly
-                            st.write(f"  Values: {outputs[i]}")
-                        else:  # For larger outputs, use a dataframe
-                            output_flat = outputs[i].flatten()
-                            st.write("  First 10 values:")
-                            st.write(output_flat[:10])
-                            
-                            # Option to download full results
-                            output_csv = io.StringIO()
-                            np.savetxt(output_csv, output_flat, delimiter=',')
-                            st.download_button(
-                                label="Download full results as CSV",
-                                data=output_csv.getvalue(),
-                                file_name=f"{output_name}_results.csv",
-                                mime="text/csv"
-                            )
+                    
+                    # Assuming the outputs contain the values in a specific order
+                    # Modify the indices as needed based on your model's output structure
+                    output_array = outputs[0].flatten()  # Flatten the output array
+                    
+                    # Check if we have enough values
+                    if len(output_array) >= 5:
+                        # Display only the specific values in the requested format
+                        result_text = (
+                            f"Shear Rate: {output_array[0]}\n"
+                            f"Power: {output_array[1]}\n"
+                            f"Tip Speed: {output_array[2]}\n"
+                            f"Reynolds Number: {output_array[3]}\n"
+                            f"Power Number: {output_array[4]}"
+                        )
+                        st.text(result_text)
+                    else:
+                        st.warning("Output array doesn't contain enough values for all the requested parameters.")
+                        st.write(f"Available values: {output_array}")
                 else:
                     st.error(f"Error running inference: {result}")
     else:
