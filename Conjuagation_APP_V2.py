@@ -9,7 +9,7 @@ import requests
 MODEL_OPTIONS = {
     "2L to 5L": "https://github.com/code2mech/App/blob/main/2L_5L.onnx",
     "10L to 20L": "https://github.com/code2mech/App/blob/main/10L_20L.onnx",
-    "800L to 2000L": "https://raw.githubusercontent.com/yourusername/yourrepo/main/model_heat.onnx"
+    "800L to 2000L": "https://github.com/code2mech/App/blob/main/800L_2000L.onnx"
 }
 
 # 🏷 Custom output labels
