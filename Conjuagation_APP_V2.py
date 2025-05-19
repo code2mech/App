@@ -12,6 +12,9 @@ MODEL_OPTIONS = {
     "Heat Transfer Model": "https://raw.githubusercontent.com/yourusername/yourrepo/main/model_heat.onnx"
 }
 
+# 🏷 Custom output labels
+OUTPUT_LABELS = ["Shear Rate", "Power", "Tip Speed", "Reynolds Number", "Power Number"]
+
 def download_model_from_github(url):
     response = requests.get(url)
     if response.status_code == 200:
@@ -23,7 +26,7 @@ def download_model_from_github(url):
 
 def main():
     st.set_page_config(page_title="ONNX Model Inference", layout="wide")
-    st.title("ONNX Model Inference from GitHub")
+    st.title("🧠 ONNX Model Inference from GitHub")
 
     # 👇 Dropdown to choose model
     selected_model_name = st.selectbox("Select a model", list(MODEL_OPTIONS.keys()))
@@ -41,9 +44,23 @@ def main():
                 if success:
                     _, _, output_names, outputs = result
                     output_array = outputs[0].flatten()
-                    st.subheader("Results")
-                    for i, val in enumerate(output_array):
-                        st.write(f"Output {i+1}: {val}")
+
+                    st.subheader("📊 Results")
+                    if len(output_array) >= 5:
+                        for i in range(5):
+                            st.write(f"**{OUTPUT_LABELS[i]}**: {output_array[i]}")
+                    else:
+                        st.warning("Not enough outputs to label. Showing raw values:")
+                        for i, val in enumerate(output_array):
+                            st.write(f"Output {i + 1}: {val}")
+
+                    # CSV Download
+                    st.download_button(
+                        label="Download results as CSV",
+                        data=",".join(map(str, output_array)),
+                        file_name="inference_results.csv",
+                        mime="text/csv"
+                    )
                 else:
                     st.error(f"Inference failed: {result}")
             finally:
